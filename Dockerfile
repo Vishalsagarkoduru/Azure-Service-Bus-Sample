@@ -2,7 +2,7 @@
 # Build stage
 #
 
-FROM maven:3.6.3-jdk-17-slim AS build
+FROM maven:3.6.3-openjdk:17.0.1-jdk-slim AS build
 
 WORKDIR usr/src/app
 
@@ -14,7 +14,7 @@ RUN mvn clean package
 # Package stage
 #
 
-FROM openjdk:17-jre-slim
+FROM openjdk:17.0.1-jdk-slim
 
 ARG JAR_NAME="Azure-Service-bus"
 
