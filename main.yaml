@@ -1,0 +1,23 @@
+name: Build a Docker image and Push it to ACR
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: azure/docker-login@v1
+        with:
+           login-server: demoservicebuscontainer.azurecr.io
+           username: demoservicebuscontainer
+           password: II6Q7mi4NatrGaFM88Sg/azgbJwRbH0hzmfKjKLFBL+ACRBKb4SG
+      - run: |
+          docker build . -t demoservicebuscontainer.azurecr.io/knowledgefactory:latest
+          docker push demoservicebuscontainer.azurecr.io/knowledgefactory:latest
