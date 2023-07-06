@@ -1,4 +1,11 @@
-FROM openjdk:17-jdk-slim-buster
-ADD target/Azure-Service-bus-0.0.1-SNAPSHOT.jar app.jar
-EXPOSE 80
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+FROM maven:3.8.1-openjdk-17-slim AS build  
+COPY src /usr/src/app/src  
+COPY pom.xml /usr/src/app  
+RUN mvn -f /usr/src/app/pom.xml clean package
+#
+# PACKAGE STAGE
+#
+FROM openjdk:17.0.1-jdk-slim 
+COPY --from=build /usr/src/app/target/Azure-Service-bus-0.0.1-SNAPSHOT.jar /usr/app/Azure-Service-bus-0.0.1-SNAPSHOT.jar  
+EXPOSE 8080  
+CMD ["java","-jar","/usr/app/Azure-Service-bus-0.0.1-SNAPSHOT.jar"]
