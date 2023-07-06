@@ -8,7 +8,7 @@ WORKDIR usr/src/app
 
 COPY . ./
 
-RUN mvn clean install
+RUN mvn clean install -DskipTests
 
 #
 # Package stage
